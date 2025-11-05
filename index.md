@@ -1,7 +1,5 @@
 <link rel="stylesheet" href="{{ '/assets/custom.css' | relative_url }}">
 ---
-
----
 # Tom Hammer
 
 Startup People + Teams
