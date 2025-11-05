@@ -1,0 +1,10 @@
+/* Hide the sidebar */
+#sidebar, .sidebar, .header, .footer {
+  display: none !important;
+}
+
+/* Center the main content */
+.wrapper, .main, body {
+  margin: 0 auto !important;
+  max-width: 700px;
+}
