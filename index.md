@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/assets/custom.css">
+<link rel="stylesheet" href="{{ '/assets/custom.css' | relative_url }}">
 ---
 
 ---
