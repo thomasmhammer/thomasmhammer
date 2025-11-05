@@ -1,7 +1,15 @@
 ---
-layout: default
-title: Home
+
 ---
 # Tom Hammer
 
 Startup People + Teams
+---
+
+my resums
+
+my x 
+
+my substack
+
+my art
