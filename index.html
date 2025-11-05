@@ -27,21 +27,45 @@
   li{margin:10px 0}
   a{color:var(--link);text-decoration:none}
   a:hover{text-decoration:underline;color:var(--link-hover)}
+   .content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap; /* keeps it responsive */
+}
+
+.text {
+  flex: 1 1 300px;
+}
+
+.photo img {
+  width: 160px;     /* adjust this as needed */
+  border-radius: 12px;
+  object-fit: cover;
+}
 </style>
 </head>
   <meta name="theme-color" content="#111213">
 <body>
   <main class="wrap">
-    <h1>Tom Hammer</h1>
-    <h2>Startup People + Teams</h2>
+  <div class="content">
+    <div class="text">
+      <h1>Tom Hammer</h1>
+      <h2>Startup People + Teams</h2>
 
-    <ul>
-      <li><a href="#" rel="noopener">my resume</a></li>
-      <li><a href="#" rel="noopener">my x</a></li>
-      <li><a href="#" rel="noopener">my substack</a></li>
-      <li><a href="#" rel="noopener">my a16z page</a></li>
-      <li><a href="#" rel="noopener">my art</a></li>
-    </ul>
-  </main>
+      <ul>
+        <li><a href="#">my resume</a></li>
+        <li><a href="#">my x</a></li>
+        <li><a href="#">my substack</a></li>
+        <li><a href="#">my a16z page</a></li>
+        <li><a href="#">my art</a></li>
+      </ul>
+    </div>
+    <div class="photo">
+      <img src="your-image.jpg" alt="Tom Hammer" />
+    </div>
+  </div>
+</main>
 </body>
 </html>
