@@ -1,10 +1,17 @@
-/* Hide the sidebar */
-#sidebar, .sidebar, .header, .footer {
+/* Kill the left header/column and footer in the orderedlist/Slate theme */
+#header, .header, #banner, .sidebar, #sidebar, .footer, #footer, .credits {
   display: none !important;
 }
 
-/* Center the main content */
-.wrapper, .main, body {
+/* Pull main content full-width and center it */
+#content, .inner, .wrapper, .main {
+  max-width: 760px !important;
   margin: 0 auto !important;
-  max-width: 700px;
+  padding: 0 20px !important;
+}
+
+/* Remove any left padding/margins the theme adds */
+body {
+  margin: 0 !important;
+  padding: 0 !important;
 }
