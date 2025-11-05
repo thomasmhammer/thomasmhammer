@@ -4,7 +4,7 @@
 # Tom Hammer
 
 Startup People + Teams
-
+--
 
 my resume
 
