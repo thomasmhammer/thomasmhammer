@@ -6,10 +6,12 @@
 Startup People + Teams
 ---
 
-my resums
+my resume
 
-my x 
+my x
 
 my substack
+
+my a16z page
 
 my art
