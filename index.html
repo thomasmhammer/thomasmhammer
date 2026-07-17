@@ -74,6 +74,11 @@
     z-index:1;
   }
 
+  /* desktop: pull the photo in from the right margin (right edge has a baked fade) */
+  @media (min-width: 861px) {
+    .photo img { right:80px; }
+  }
+
   @media (max-width: 860px) {
     .photo img { height:auto; width:88vw; }
     .wrap { padding-top:40px; }
