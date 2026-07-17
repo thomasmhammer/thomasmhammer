@@ -6,18 +6,35 @@
   <title>Tom Hammer</title>
   <meta name="theme-color" content="#d5dedf">
  <style>
+  @font-face{
+    font-family:'Satoshi';
+    src:url('fonts/satoshi-300.woff2') format('woff2');
+    font-weight:300; font-style:normal; font-display:swap;
+  }
+  @font-face{
+    font-family:'Satoshi';
+    src:url('fonts/satoshi-400.woff2') format('woff2');
+    font-weight:400; font-style:normal; font-display:swap;
+  }
+  @font-face{
+    font-family:'Bangers';
+    src:url('fonts/bangers.woff2') format('woff2');
+    font-weight:400; font-style:normal; font-display:swap;
+  }
+
   :root {
     --bg: #d5dedf;          /* studio backdrop gray, sampled from photo */
     --text: #2b2d2e;        /* dark gray */
     --muted: #5c6467;       /* softer gray for subheads */
-    --link: #3d6b4a;        /* dark green */
-    --link-hover: #2f5439;  /* slightly darker on hover */
+    --link: #b21523;        /* chair red, sampled from photo */
+    --link-hover: #8e111c;  /* darker chair red */
     --maxw: 960px;
   }
 
   html,body{margin:0;padding:0}
   body{
-    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    font:16px/1.6 'Satoshi',-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-weight:400;
     color:var(--text);
     background:var(--bg)
       linear-gradient(to bottom, #d3dcdd 0%, #d2ddde 43%, #ccd7d8 64%, #d1dcdd 73%, #dce5e5 84%, #dde5e6 89%, #d9e1e3 95%, #d4dcde 100%)
@@ -25,12 +42,20 @@
     min-height:100vh;
   }
   .wrap{max-width:var(--maxw);margin:0 auto;padding:64px 20px 0}
-  h1{font-size:34px;margin:0 0 6px}
-  h2{font-size:20px;margin:0 0 24px;color:var(--muted)}
+  h1{font-size:42px;font-weight:300;letter-spacing:-0.01em;margin:0 0 6px}
+  h2{font-size:20px;font-weight:300;margin:0 0 24px;color:var(--muted)}
   ul{list-style:none;margin:24px 0 0;padding:0}
   li{margin:10px 0}
   a{color:var(--link);text-decoration:none}
   a:hover{text-decoration:underline;color:var(--link-hover)}
+
+  /* "my art" — letters pop instantly to their colors on hover */
+  .art:hover span:nth-child(1){color:#e11d48}
+  .art:hover span:nth-child(2){color:#f59e0b}
+  .art:hover span:nth-child(3){color:#16a34a}
+  .art:hover span:nth-child(4){color:#2563eb}
+  .art:hover span:nth-child(5){color:#9333ea}
+  .art:hover{text-decoration-color:#9333ea}
 
   .text {
     position:relative;
@@ -43,8 +68,7 @@
     position:fixed;
     right:0;
     bottom:0;
-    /* sized by viewport height so the eyes (~25.5% from top of image)
-       land level with the first link, ~230px from the top of the page */
+    /* sized by viewport height so the eyes land level with the first link */
     height:calc(134vh - 259px);
     width:auto;
     z-index:1;
@@ -54,6 +78,29 @@
     .photo img { height:auto; width:88vw; }
     .wrap { padding-top:40px; }
   }
+
+  /* easter egg: Lichtenstein speech bubble when the head leaves the frame */
+  #ahh{
+    position:fixed; z-index:3; display:none;
+    background:#fff; border:3px solid #141414; border-radius:50%;
+    padding:16px 26px 14px;
+    font-family:'Bangers','Arial Black',sans-serif;
+    font-size:30px; letter-spacing:3px; color:#b21523;
+    transform:rotate(-7deg);
+    box-shadow:4px 5px 0 rgba(20,20,20,.85);
+    white-space:nowrap; pointer-events:none;
+  }
+  #ahh::after{
+    content:''; position:absolute; bottom:-21px; right:22%;
+    width:0; height:0;
+    border:11px solid transparent; border-top:22px solid #141414;
+    transform:rotate(-24deg);
+  }
+  #ahh.pop{animation:ahhpop .35s cubic-bezier(.2,1.6,.4,1)}
+  @keyframes ahhpop{from{transform:scale(.2) rotate(-7deg)}to{transform:scale(1) rotate(-7deg)}}
+
+  /* easter egg: deal-with-it shades on double-click */
+  #shades{position:fixed;z-index:3;display:none;pointer-events:none}
 </style>
 </head>
 <body>
@@ -68,7 +115,7 @@
         <li><a href="https://x.com/tmhammer" target="_blank" rel="noopener noreferrer">my x</a></li>
         <li><a href="https://th.substack.com/" target="_blank" rel="noopener noreferrer">my substack</a></li>
         <li><a href="https://a16z.com/author/tom-hammer/" target="_blank" rel="noopener noreferrer">my a16z page</a></li>
-        <li><a href="https://the.tmh.gallery/" target="_blank" rel="noopener noreferrer">my art</a></li>
+        <li><a class="art" href="https://the.tmh.gallery/" target="_blank" rel="noopener noreferrer"><span>m</span><span>y</span> <span>a</span><span>r</span><span>t</span></a></li>
       </ul>
     </div>
     <div class="photo">
@@ -76,5 +123,78 @@
     </div>
   </div>
 </main>
+<div id="ahh">AHHHHH</div>
+<div id="shades"><img src="shades.png" alt="" style="width:100%;display:block"></div>
+<script>
+(() => {
+  const img = document.querySelector('.photo img');
+  const ahh = document.getElementById('ahh');
+  let shown = false;
+  let headWasOut = null;  // null until first measured; bubble needs an in->out transition
+  function measure(){
+    const r = img.getBoundingClientRect();
+    if (!r.height) return null;
+    return {r, out: (r.top + 0.2208 * r.height) < 0};  // 0.2208 = top of hair
+  }
+  function check(){
+    const m = measure();
+    if (!m) return;
+    const {r, out} = m;
+    // only pop on a live in->out transition, never from the load-time state
+    if (out && (shown || headWasOut === false)) {
+      ahh.style.display = 'block';
+      // offsetWidth/Height: layout size, unaffected by the pop/rotate transforms
+      ahh.style.left = Math.max(8, r.left + 0.50 * r.width - ahh.offsetWidth - 30) + 'px';
+      // locked to the face, anchored low enough to be fully visible when it
+      // first pops (head just past the top edge), then rides up 1:1
+      ahh.style.top  = (r.top + 0.325 * r.height - ahh.offsetHeight - 8) + 'px';
+      if (!shown) { ahh.classList.remove('pop'); void ahh.offsetWidth; ahh.classList.add('pop'); }
+      shown = true;
+    } else if (!out) {
+      ahh.style.display = 'none';
+      shown = false;
+    }
+    headWasOut = out;
+  }
+  addEventListener('resize', check);
+  // record the load-time state without ever showing the bubble
+  function arm(){ const m = measure(); if (m) headWasOut = m.out; }
+  addEventListener('load', arm);
+  if (img.complete) arm();
+
+  // deal-with-it: double-click the photo
+  const shades = document.getElementById('shades');
+  let dealActive = false;
+  function place(){
+    if (!dealActive) return;
+    const r = img.getBoundingClientRect();
+    // sprite: 220x67 (aspect .3045); lens center sits at (0.41, 0.60) within it.
+    // anchor the LENS CENTER on the eyes; the sprite's baked-in angle does the rest.
+    const gw = 0.215 * r.width;
+    const gh = gw * 0.3045;
+    shades.style.width = gw + 'px';
+    shades.style.left = (r.left + 0.497 * r.width - 0.41 * gw - 10) + 'px';
+    shades.style.top  = (r.top + 0.2755 * r.height - 0.60 * gh) + 'px';
+  }
+  img.addEventListener('dblclick', () => {
+    dealActive = !dealActive;
+    if (dealActive) {
+      shades.style.display = 'block';
+      place();
+      // pure linear descent from above the frame to the face: 4s, constant velocity
+      const finalTop = parseFloat(shades.style.top);
+      const spriteH = parseFloat(shades.style.width) * 0.3045;
+      shades.animate(
+        [{transform: `translateY(${-(finalTop + spriteH)}px)`},
+         {transform: 'translateY(0)'}],
+        {duration: 4000, easing: 'linear', fill: 'forwards'}
+      );
+    } else {
+      shades.style.display = 'none';
+    }
+  });
+  addEventListener('resize', place);
+})();
+</script>
 </body>
 </html>
