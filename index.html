@@ -4,52 +4,58 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tom Hammer</title>
+  <meta name="theme-color" content="#d5dedf">
  <style>
   :root {
-    --bg: #111213;         /* dark gray */
-    --text: #e6e6e6;       /* light gray */
-    --muted: #a0a0a0;      /* softer gray for subheads */
-    --link: #3d6b4a;       /* dark green */
-    --link-hover: #5d9a6e; /* slightly lighter on hover */
-    --maxw: 760px;
+    --bg: #d5dedf;          /* studio backdrop gray, sampled from photo */
+    --text: #2b2d2e;        /* dark gray */
+    --muted: #5c6467;       /* softer gray for subheads */
+    --link: #3d6b4a;        /* dark green */
+    --link-hover: #2f5439;  /* slightly darker on hover */
+    --maxw: 960px;
   }
 
   html,body{margin:0;padding:0}
   body{
     font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
     color:var(--text);
-    background:var(--bg);
+    background:var(--bg)
+      linear-gradient(to bottom, #d3dcdd 0%, #d2ddde 43%, #ccd7d8 64%, #d1dcdd 73%, #dce5e5 84%, #dde5e6 89%, #d9e1e3 95%, #d4dcde 100%)
+      fixed;
+    min-height:100vh;
   }
-  .wrap{max-width:var(--maxw);margin:64px auto;padding:0 20px}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:64px 20px 0}
   h1{font-size:34px;margin:0 0 6px}
   h2{font-size:20px;margin:0 0 24px;color:var(--muted)}
   ul{list-style:none;margin:24px 0 0;padding:0}
   li{margin:10px 0}
   a{color:var(--link);text-decoration:none}
   a:hover{text-decoration:underline;color:var(--link-hover)}
-   .content {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 40px;
-  flex-wrap: wrap; /* keeps it responsive */
-}
 
-.text {
-  flex: 1 1 300px;
-}
-.photo {
-  margin-top: 20px; /* try 16–32px and tweak to taste */
-}
-.photo img {
-  width: 240px;      /* try 220–260px and adjust to taste */
-  max-width: 100%;
-  border-radius: 12px;
-  object-fit: cover;
-}
+  .text {
+    position:relative;
+    z-index:2;
+    max-width:420px;
+  }
+
+  /* photo pinned to the lower right, edges faded into the page bg */
+  .photo img {
+    position:fixed;
+    right:0;
+    bottom:0;
+    /* sized by viewport height so the eyes (~25.5% from top of image)
+       land level with the first link, ~230px from the top of the page */
+    height:calc(134vh - 259px);
+    width:auto;
+    z-index:1;
+  }
+
+  @media (max-width: 860px) {
+    .photo img { height:auto; width:88vw; }
+    .wrap { padding-top:40px; }
+  }
 </style>
 </head>
-  <meta name="theme-color" content="#111213">
 <body>
   <main class="wrap">
   <div class="content">
@@ -66,7 +72,7 @@
       </ul>
     </div>
     <div class="photo">
-      <img src="tom.jpg" alt="thanks for coming" />
+      <img src="tom-blend.webp" alt="thanks for coming" />
     </div>
   </div>
 </main>
