@@ -84,6 +84,11 @@
     .wrap { padding-top:40px; }
   }
 
+  /* phone landscape: same bottom-right anchor, 30% larger */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .photo img { height:calc((134vh - 259px) * 1.3); }
+  }
+
   /* easter egg: Lichtenstein speech bubble when the head leaves the frame */
   #ahh{
     position:fixed; z-index:3; display:none;
